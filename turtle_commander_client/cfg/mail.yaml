@@ -1,0 +1,10 @@
+turtle_mail_enabled: False
+turtle_mail_address: "rst.turtlefarm@gmail.com"
+turtle_mail_smtp: "smtps://smtp.gmail.com:465"
+turtle_mail_login: "rst.turtlefarm@gmail.com"
+turtle_mail_pw: "rst2016turtles"
+turtle_mail_receiver: "turtlebots.rst.etit@lists.tu-dortmund.de"
+
+telegram_enabled: False
+telegram_token: "137890755:AAERrwshkhvdIHNHf5bc1eA75caMLcPo3sk"
+telegram_chat_id: "-40109092"

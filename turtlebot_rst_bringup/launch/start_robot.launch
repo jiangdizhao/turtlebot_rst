@@ -1,0 +1,54 @@
+<!-- file: start_robot.launch -->
+<!-- This launch-file works with the start_all.launch. It disable the start of
+	a map server. And is initialized by an turtlebot_no, because the turtle-
+	commander uses alway robot_X as prefix.	
+	It decides between the real bringup and a bringup for robots in stage	-->
+<launch>
+
+  <arg name="robot_name" default="robot_1" /> 
+  <arg name="local_planner" default="teb" /> <!-- teb, dwa, eba -->
+  <arg name="start_map_server" default="false" />
+  <arg name="initial_pose_x" default="-0.25"/> <!-- Use 17.0 for willow's map in simulation -->
+  <arg name="initial_pose_y" default="-1.0"/> <!-- Use 17.0 for willow's map in simulation -->
+  <arg name="initial_pose_a" default="3.14"/>
+  <arg name="simulation" default="false"/>
+
+<group unless="$(arg simulation)">
+  <!-- Start base for turtlebot -->
+  <include file="$(find turtlebot_rst_bringup)/launch/start_all.launch">
+        <arg name="robot_name" value="$(arg robot_name)" />
+        <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+        <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+        <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
+        <arg name="local_planner" value="$(arg local_planner)" />
+        <arg name="start_map_server" value="$(arg start_map_server)" />
+  </include>
+</group>
+
+<group if="$(arg simulation)">
+  <!-- Start base for stage -->
+  <include file="$(find turtlebot_rst_bringup)/launch/start_nav_stage.launch">
+        <arg name="robot_name" value="$(arg robot_name)" />
+        <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+        <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+        <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
+        <arg name="local_planner" value="$(arg local_planner)" />
+  </include>
+  <!-- Load robot description -->
+  <include file="$(find turtlebot_rst_bringup)/launch/includes/robot.launch.xml" ns="$(arg robot_name)">
+    <arg name="base" value="kobuki" />
+    <arg name="stacks" value="$(env TURTLEBOT_STACKS)" />
+    <arg name="3d_sensor" value="$(env TURTLEBOT_3D_SENSOR)" />
+    <arg name="robot_name" value="$(arg robot_name)" />
+  </include>
+</group>
+
+<!-- start a multiplexer for the footprint. To start rviz at the master! -->
+<group ns="$(arg robot_name)">
+ 	<param name="tf_prefix" value="$(arg robot_name)"/>
+	 <!-- mux_cmdvel installation -->
+	 <node pkg="topic_tools" type="mux" name="mux_footprint" args="/turtle_commander_master/$(arg robot_name) move_base/local_costmap/footprint mux:=$(arg robot_name)">
+	 </node>
+</group>
+
+</launch>

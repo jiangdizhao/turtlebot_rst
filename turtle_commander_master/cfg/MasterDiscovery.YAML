@@ -1,0 +1,4 @@
+# MasterDiscovery.YAML
+# Configuration of the multicast port
+
+mcast_group: 224.0.0.251

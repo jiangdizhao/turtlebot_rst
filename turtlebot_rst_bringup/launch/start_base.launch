@@ -1,0 +1,21 @@
+<!-- file: start_base.launch -->
+<launch>
+
+  <arg name="robot_name" default="robot_1" /> 
+  <arg name="odom_frame_id" default="$(arg robot_name)/odom" />
+  <arg name="base_frame_id" default="$(arg robot_name)/base_footprint" />
+  
+
+  <group ns="$(arg robot_name)">
+ 	
+	<param name="tf_prefix" value="$(arg robot_name)"/>
+
+  	<!-- Start base -->
+	<include file="$(find turtlebot_rst_bringup)/launch/minimal.launch">
+    		<arg name="odom_frame_id" 	value="$(arg robot_name)/odom" />
+    		<arg name="base_frame_id" 	value="$(arg robot_name)/base_footprint" />
+                <arg name="robot_name" 		value="$(arg robot_name)" />
+	</include>
+  </group>
+
+</launch>

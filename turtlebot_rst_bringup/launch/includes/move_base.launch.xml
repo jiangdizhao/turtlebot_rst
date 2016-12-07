@@ -1,0 +1,47 @@
+<!-- 
+    ROS navigation stack with velocity smoother and safety (reactive) controller
+-->
+<launch>
+  <!-- ************** Velocity Smoother  ***************  -->
+  <include file="$(find turtlebot_rst_bringup)/launch/includes/velocity_smoother.launch.xml"/>
+  <!-- ************** Safety Controoler  ***************  -->
+  <include file="$(find turtlebot_rst_bringup)/launch/includes/safety_controller.launch.xml"/>
+  
+  <arg name="odom_frame_id"   	default="odom"/>
+  <arg name="base_frame_id"   	default="base_footprint"/>
+  <arg name="global_frame_id" 	default="map"/>
+  <arg name="odom_topic" 	default="odom" />
+  <arg name="laser_topic" 	default="scan" />
+  <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
+  <arg name="local_planner" 	default="teb" /> <!-- teb, dwa -->
+
+ 
+	 <!-- ************** Navigation *************** -->
+	 <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+	    <rosparam file="$(find turtlebot_rst_bringup)/cfg/param_$(arg local_planner)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+	    <rosparam file="$(find turtlebot_rst_bringup)/cfg/param_$(arg local_planner)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+	    <rosparam file="$(find turtlebot_rst_bringup)/cfg/param_$(arg local_planner)/local_costmap_params.yaml" command="load" />
+	    <rosparam file="$(find turtlebot_rst_bringup)/cfg/param_$(arg local_planner)/global_costmap_params.yaml" command="load" />
+	    <rosparam file="$(find turtlebot_rst_bringup)/cfg/param_$(arg local_planner)/local_planner_params.yaml" command="load" />
+	    <!--rosparam file="$(find turtlebot_rst_bringup)/cfg/param_$(arg local_planner)/costmap_converter_params.yaml" command="load" /-->
+	    <rosparam file="$(find turtlebot_rst_bringup)/cfg/param_$(arg local_planner)/move_base_params.yaml" command="load" />
+	    <rosparam file="$(find turtlebot_rst_bringup)/cfg/param_$(arg local_planner)/global_planner_params.yaml" command="load" />
+	    <!--param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /-->
+	    <!--param name="base_global_planner" value="straight_global_planner/StraightROS" /-->
+
+	    <!-- external params file that could be loaded into the move_base namespace -->
+	    <rosparam file="$(arg custom_param_file)" command="load" />
+	    
+	    <!-- reset frame_id parameters using user input data -->
+	    <param name="global_costmap/global_frame" value="$(arg global_frame_id)"/>
+	    <param name="global_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
+	    <param name="local_costmap/global_frame" value="$(arg odom_frame_id)"/>
+	    <param name="local_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
+	    <param name="DWAPlannerROS/global_frame_id" value="$(arg odom_frame_id)"/>
+
+	    <remap from="/odom" to="$(arg odom_topic)"/>
+	    <remap from="scan" to="$(arg laser_topic)"/>
+	    <remap from="map" to="/map"/>
+	    <remap from="cmd_vel" to="navigation_velocity_smoother/raw_cmd_vel"/>
+	  </node>
+</launch>

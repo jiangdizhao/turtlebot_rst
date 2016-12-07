@@ -1,0 +1,18 @@
+<!-- file: multi_master.launch -->
+<launch>
+
+  <!-- Start master_discovery -->
+  <node name="master_discovery" pkg="master_discovery_fkie" type="master_discovery" output="screen">
+  	<!-- rosparam param="mcast_group">224.0.0.251</rosparam -->  	
+  	<rosparam file="$(find turtle_commander_master)/cfg/MasterDiscovery.YAML" command="load" />
+  </node>
+  
+    <!-- Start master_sync -->
+  <node name="master_sync" pkg="master_sync_fkie" type="master_sync" output="screen">
+  	<!-- rosparam param="sync_topics">['/test/Another']</rosparam -->  	
+  	<rosparam file="$(find turtle_commander_master)/cfg/MasterSync.YAML" command="load" />
+  </node>
+  
+  
+
+</launch>

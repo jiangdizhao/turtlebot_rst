@@ -1,0 +1,15 @@
+<!--configuration for robot7 starting from docking3-->
+<launch>
+ <arg name="turtlebot_no"/>
+ <arg name="simulation"/>
+
+  <!-- Start base -->
+ <include file="$(find turtlebot_rst_bringup)/launch/start_robot.launch">
+ 	 <arg name="robot_name" 	value="robot_$(arg turtlebot_no)" />
+	 <arg name="initial_pose_x" 	value="-8.234"/>
+	 <arg name="initial_pose_y" 	value="-6.225"/>
+	 <arg name="initial_pose_a" 	value="2.32"/>
+	 <arg name="local_planner"  	value="eba" />  <!-- teb, dwa, eba -->
+         <arg name="simulation" 	value="$(arg simulation)" />
+ </include>
+</launch>

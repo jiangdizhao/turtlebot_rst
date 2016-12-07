@@ -1,0 +1,22 @@
+<!--
+  Used for visualising the turtlebot while building a map or navigating with the ros navistack.
+ -->
+
+<launch>
+
+  <arg name="multi"        default="false"/>
+  <arg name="simulation"   default="false"/>
+  <arg name="turtlebot_no" default="1" />
+
+  <node unless="$(arg multi)" name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_rst_bringup)/cfg/navigation_single.rviz">
+
+	<!-- if we have only a single robot -->
+	<remap from="/initialpose" to="/robot_$(arg turtlebot_no)/initialpose"/>
+	<remap from="/move_base_simple/goal" to="/robot_$(arg turtlebot_no)/move_base_simple/goal"/>
+  </node>
+<group if="$(arg multi)">
+  <node unless="$(arg simulation)" name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_rst_bringup)/cfg/navigation_real_multi.rviz"/>  
+  <node if="$(arg simulation)" name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_rst_bringup)/cfg/navigation_stage_multi.rviz"/>  
+</group>
+
+</launch>

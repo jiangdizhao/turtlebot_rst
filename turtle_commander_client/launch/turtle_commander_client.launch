@@ -1,0 +1,19 @@
+<!-- file: turtle_commander_client.launch -->
+<launch>
+	<arg name="turtlebot_no" default="1"/>
+	<arg name="local_planner" default="teb"/>
+	<arg name="initial_location" default="docking1"/>
+
+	<group ns="robot_$(arg turtlebot_no)">
+	  <param name="tf_prefix" value="robot_$(arg turtlebot_no)"/>
+	  <!-- Start turtle commander_client -->
+	  <node name="turtle_commander_client" pkg="turtle_commander_client" type="turtle_commander_client" output="screen">
+                <rosparam file="$(find turtle_commander_master)/cfg/evaluationSettings.yaml" command="load"/>
+		<rosparam param="turtlebot_number" subst_value="True"> $(arg turtlebot_no) </rosparam>
+		<rosparam param="local_planner" subst_value="True"> $(arg local_planner) </rosparam>
+		<rosparam param="initial_location" subst_value="True"> $(arg initial_location) </rosparam>
+	  	<rosparam file="$(find turtle_commander_client)/cfg/goals.yaml" command="load"/>
+	  	<rosparam file="$(find turtle_commander_client)/cfg/mail.yaml" command="load"/>
+	  </node>
+	</group>
+</launch>

@@ -1,0 +1,4 @@
+number_v_bins: 20
+number_omega_bins: 20
+v_max: 0.3
+omega_max: 0.5

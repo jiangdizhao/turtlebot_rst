@@ -1,0 +1,16 @@
+<!-- file: start_client.launch -->
+<!-- This launch-file works with the start_all.launch. It disable the start of
+	a map server. And is initialized by an turtlebot_no, because the turtle-
+	commander uses alway robot_X as prefix.					-->
+<launch>
+
+  <arg name="turtlebot_no" default="1" />
+  <arg name="simulation" default="false" /> 
+
+  <!-- Start base -->
+  <include file="$(find turtlebot_rst_bringup)/cfg/turtlebots/turtlebot_$(arg turtlebot_no).launch.xml">
+        <arg name="turtlebot_no" value="$(arg turtlebot_no)" />
+        <arg name="simulation" value="$(arg simulation)" />
+  </include>
+
+</launch>

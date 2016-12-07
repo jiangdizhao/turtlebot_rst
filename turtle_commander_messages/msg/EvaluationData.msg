@@ -1,0 +1,12 @@
+Header 		header 
+int32 		turtlebot_number
+bool 		navigation_cancled
+string 		nav_planner
+string 		start
+string 		goal
+float64 	distance
+float64 	driving_time
+int32 		number_of_resets
+int32 		number_of_collisions
+int32[]         v_bins
+int32[] 	omega_bins

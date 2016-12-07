@@ -1,0 +1,8 @@
+<!-- file: start_map_server.launch -->
+<!-- This launch-file starts the map server					-->
+<launch>
+  <!-- Map server -->
+  <arg name="map_file" default="$(find turtlebot_rst_bringup)/maps/rst_lab.yaml" />
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+</launch>

@@ -1,0 +1,7 @@
+# MasterSync.YAML
+# Configuration of array of the synchronized topics
+
+sync_topics: [/turtle_commander_master/state,/turtle_commander_master/command,/turtle_commander_master/evaluationData,/map,/map_metadata]
+
+synch_nodes: [map_server, turtle_commander_master]
+

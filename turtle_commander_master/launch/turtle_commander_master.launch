@@ -1,0 +1,13 @@
+<!-- file: turtle_commander_master.launch -->
+<launch>
+
+ <arg name="work_path" default="/tmp/"/>
+
+  <!-- Start turtle_commander_master -->
+  <node name="turtle_commander_master" pkg="turtle_commander_master" type="turtle_commander_master" output="screen"> 
+	<rosparam file="$(find turtle_commander_client)/cfg/goals.yaml" command="load"/>
+	<rosparam file="$(find turtle_commander_master)/cfg/evaluationSettings.yaml" command="load"/>
+	<rosparam param="work_path" subst_value="True">$(arg work_path)</rosparam>
+  </node>
+
+</launch>
